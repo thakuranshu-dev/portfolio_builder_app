@@ -1,0 +1,27 @@
+:root {
+    --bg: #0b1020;
+    --panel: #121833;
+    --muted: #7681a1;
+    --text: #eef2ff;
+    --accent: #7c3aed;
+    --accent-2: #06b6d4;
+    --ring: rgba(124, 58, 237, 0.55);
+    --shadow: 0 10px 30px rgba(0,0,0,.35);
+    --radius: 18px;
+    --code: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+    --font: system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial,"Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+}
+.theme-light { --bg:#f7f8fb; --panel:#ffffff; --muted:#64748b; --text:#0b1020;--accent:#2563eb; --accent-2:#db2777; --ring:rgba(37,99,235,.35); }
+.theme-dusk  { --bg:#0f0e17; --panel:#181625; --muted:#a7a9be; --text:#fffffe;--accent:#ff8906; --accent-2:#f25f4c; --ring:rgba(255,137,6,.4); }
+
+/* ---- Base Reset ---- */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0; background: radial-gradient(1100px 500px at 10% -10%, rgba(124,58,237,.25),transparent 60%),
+                               radial-gradient(1000px 600px at 110% 10%, rgba(6,182,212,18), transparent 60%),
+                               var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  line-height: 1.5;
+}
