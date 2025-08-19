@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Builder</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="icon" type="image/png" href="../assets/favicon__.png">
+
+</head>
+<body>
+  <div class="container">
+
+  <!-- Builder Panel -->
+    <section class="card" aria-labelledby="builderTitle">
+      <div class="card-header">
+        <div>
+          <div class="card-title" id="builderTitle">Portfolio Builder</div>
+          <div class="card-subtle">Fill in your details, preview live, then export a standalone HTML file.</div>
+        </div>
+        <div class="toolbar">
+          <select id="themeSelect" aria-label="Theme">
+            <option value="theme-dark" selected>Dark (Aurora)</option>
+            <option value="theme-light">Light</option>
+            <option value="theme-dusk">Dusk</option>
+          </select>
+          <button class="btn ghost" id="btnReset" type="button" title="Reset">Reset</button>
+          <button class="btn primary" id="btnDownload" type="button" title="Download HTML">Download Portfolio HTML</button>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <form id="builder" class="grid" autocomplete="on">
+          <div class="grid two">
+            <div class="grid">
+              <label for="name">Full Name</label>
+              <input id="name" name="name" type="text" placeholder="Anshu Kumar Thakur" required />
+            </div>
+            <div class="grid">
+              <label for="role">Role / Headline</label>
+              <input id="role" name="role" type="text" placeholder="Software Engineer • Frontend" />
+            </div>
+          </div>
+
+          <div class="grid two">
+            <div class="grid">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" placeholder="you@example.com" />
+            </div>
+            <div class="grid">
+              <label for="location">Location</label>
+              <input id="location" name="location" type="text" placeholder="City, Country" />
+            </div>
+          </div>
+
+          <div class="grid two">
+            <div class="grid">
+              <label for="website">Website</label>
+              <input id="website" name="website" type="url" placeholder="https://yourdomain.com" />
+            </div>
+            <div class="grid">
+              <label for="avatar">Profile Photo</label>
+              <input id="avatar" name="avatar" type="file" accept="image/*" />
+            </div>
+          </div>
+
+          <div class="grid">
+            <label for="bio">About / Bio</label>
+            <textarea id="bio" name="bio" placeholder="Short intro about you (your focus, what you love building, etc.)"></textarea>
+          </div>
+
+          <div class="grid">
+            <label for="skills">Skills (comma separated)</label>
+            <input id="skills" name="skills" type="text" placeholder="HTML, CSS, JavaScript, React, Node.js" />
+          </div>
+
+          <div class="grid two">
+            <div class="grid">
+              <label for="github">GitHub</label>
+              <input id="github" name="github" type="url" placeholder="https://github.com/username" />
+            </div>
+            <div class="grid">
+              <label for="linkedin">LinkedIn</label>
+              <input id="linkedin" name="linkedin" type="url" placeholder="https://linkedin.com/in/username" />
+            </div>
+          </div>
+
+          <div class="grid two">
+            <div class="grid">
+              <label for="twitter">Twitter/X</label>
+              <input id="twitter" name="twitter" type="url" placeholder="https://x.com/username" />
+            </div>
+            <div class="grid">
+              <label for="instagram">Instagram</label>
+              <input id="instagram" name="instagram" type="url" placeholder="https://instagram.com/username" />
+            </div>
+          </div>
+
+          <!-- Projects Builder -->
+          <div class="grid">
+            <div style="display:flex; justify-content: space-between; align-items:center;">
+              <label>Projects</label>
+              <button type="button" id="addProject" class="btn ghost">+ Add Project</button>
+            </div>
+            <div id="projectsWrap" class="grid" aria-live="polite"></div>
+          </div>
+
+          <!-- Experience Builder (optional) -->
+          <div class="grid">
+            <div style="display:flex; justify-content: space-between; align-items:center;">
+              <label>Experience</label>
+              <button type="button" id="addExp" class="btn ghost">+ Add Experience</button>
+            </div>
+            <div id="expWrap" class="grid" aria-live="polite"></div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Live Preview Panel -->
+    <section class="portfolio" aria-live="polite" aria-labelledby="previewTitle">
+      <div class="hero">
+        <div class="sr-only" id="previewTitle">Portfolio Preview</div>
+        <div class="hero-inner">
+          <img class="avatar" id="outAvatar" alt="Profile photo" />
+          <div class="heading">
+            <h1 id="outName">Your Name</h1>
+            <p id="outRole" class="muted">Role / Tagline</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="left">
+          <div class="block">
+            <h3>About</h3>
+            <p id="outBio" class="muted">Write a brief introduction about yourself.</p>
+          </div>
+
+          <div class="block">
+            <h3>Projects</h3>
+            <div id="outProjects" class="grid-cards"></div>
+          </div>
+        </div>
+
+        <div class="right">
+          <div class="block">
+            <h3>Skills</h3>
+            <div id="outSkills" class="tags"></div>
+          </div>
+
+          <div class="block">
+            <h3>Links</h3>
+            <div id="outLinks" class="links"></div>
+          </div>
+
+          <div class="block">
+            <h3>Experience</h3>
+            <div id="outExp" class="grid" style="gap:10px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <div class="small" id="outFooter">© <span id="year"></span> <span id="outName2">Your Name</span>. All rights reserved.</div>
+        <div class="small">Built with ♥︎ Portfolio Builder</div>
+      </div>
+    </section>
+  </div>
+
+  <template id="projectFields">
+    <div class="grid two cardish">
+      <div class="grid">
+        <label>Project Title</label>
+        <input type="text" name="projTitle" placeholder="My Cool App" />
+      </div>
+      <div class="grid">
+        <label>Project Link</label>
+        <input type="url" name="projLink" placeholder="https://example.com" />
+      </div>
+      <div class="grid" style="grid-column: 1 / -1;">
+        <label>Description</label>
+        <textarea name="projDesc" placeholder="A sentence or two about what this project does."></textarea>
+      </div>
+      <div style="grid-column: 1 / -1; display:flex; justify-content:flex-end;">
+        <button type="button" class="btn ghost removeRow">Remove</button>
+      </div>
+    </div>
+  </template>
+
+  <template id="expFields">
+    <div class="grid two cardish">
+      <div class="grid">
+        <label>Company</label>
+        <input type="text" name="expCompany" placeholder="Acme Corp" />
+      </div>
+      <div class="grid">
+        <label>Role</label>
+        <input type="text" name="expRole" placeholder="Frontend Engineer" />
+      </div>
+      <div class="grid two">
+        <div class="grid">
+          <label>Start</label>
+          <input type="text" name="expStart" placeholder="Jan 2023" />
+        </div>
+        <div class="grid">
+          <label>End</label>
+          <input type="text" name="expEnd" placeholder="Present" />
+        </div>
+      </div>
+      <div class="grid" style="grid-column: 1 / -1;">
+        <label>Description</label>
+        <textarea name="expDesc" placeholder="What you worked on and impact"></textarea>
+      </div>
+      <div style="grid-column: 1 / -1; display:flex; justify-content:flex-end;">
+        <button type="button" class="btn ghost removeRow">Remove</button>
+      </div>
+    </div>
+  </template>
+
+  <div class="loader" id="loader">
+    <img src="../assets/loader.gif" alt="Portfolio Builder Loading" />
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
