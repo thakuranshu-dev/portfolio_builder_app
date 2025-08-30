@@ -215,18 +215,42 @@ $('#btnDownload').addEventListener('click', () => {
   a.href = URL.createObjectURL(blob);
   document.body.appendChild(a); a.click(); a.remove();
   URL.revokeObjectURL(a.href);
+  downloadCssFile('style.css', 'style.css');
 });
+
+function downloadCssFile(url, filename) {
+  fetch(url)
+    .then(response => response.blob())
+    .then(blob => {
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    })
+    .catch(error => {
+      console.error('CSS file download failed:', error);
+    });
+}
+
+
 
 function buildExportHtml(){
   // Inline styles from this document and the live preview content
-  const style = document.querySelector('style').outerHTML;
+  // const style = document.querySelector('style').outerHTML;
   const themeClass = document.body.className || 'theme-dark';
   // Clone preview node
   const preview = document.querySelector('.portfolio').cloneNode(true);
   // Remove ARIA live attributes for static export
   preview.removeAttribute('aria-live');
   // Create minimal document
-  return `<!DOCTYPE html><html lang="en"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>${escapeHtml($('#name').value || 'Portfolio')}</title>${style}</head><body class=\"${themeClass}\"><div style=\"max-width:1000px;margin:24px auto;padding:12px;\">${preview.outerHTML}</div></body></html>`;
+  // Link to external stylesheet
+  // const stylesheetLink = '<link rel="stylesheet" href="./style.css">';
+  return `<!DOCTYPE html><html lang="en"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>${escapeHtml($('#name').value || 'Portfolio')}</title><link rel=\"stylesheet\" href=\"./style.css\"></head><body class=\"${themeClass}\"><div style=\"max-width:1000px;margin:24px auto;padding:12px;\">${preview.outerHTML}</div></body></html>`;
+
+
+  //Note: if you want to inline the CSS instead of linking to an external file, replace the stylesheetLink variable with the style variable and uncomment the line that defines it.
 }
 
 // Initialize
